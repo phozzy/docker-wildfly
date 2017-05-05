@@ -12,6 +12,7 @@ RUN dnf -y groupinstall javaenterprise && dnf clean all
 ENV JAVA_HOME /usr/lib/jvm/java
 # Set JBOSS_HOME env variable
 ENV JBOSS_HOME /usr/share/wildfly
+ENV WILDFLY_HOME /usr/share/wildfly
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 # wildfly mode
