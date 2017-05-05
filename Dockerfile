@@ -14,6 +14,12 @@ ENV JAVA_HOME /usr/lib/jvm/java
 ENV JBOSS_HOME /usr/share/wildfly
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
+# wildfly mode
+ENV WILDFLY_MODE standalone
+# wildfly config
+ENV WILDFLY_CONFIG standalone.xml
+# wildfly bind
+ENV WILDFLY_BIND 0.0.0.0
 
 # switch to user wildfly
 USER wildfly
@@ -23,4 +29,5 @@ EXPOSE 8080 9990
 
 # Set the default command to run on boot
 # This will boot WildFly in the standalone mode and bind to all interface
-CMD ["/usr/share/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+# CMD ["/usr/share/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+CMD ["/usr/share/wildfly/bin/launch.sh", "$WILDFLY_MODE", "$WILDFLY_CONFIG", "$WILDFLY_BIND"]
