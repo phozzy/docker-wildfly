@@ -1,34 +1,24 @@
-FROM fedora
+FROM fedora:latest
 
-MAINTAINER Arthur Fayzullin <arthur.fayzullin@gmail.com>
+MAINTAINER Arthur
 
-# updating according to best practicies
-RUN dnf -y update && dnf clean all
+# updating and installing required packages
+RUN dnf -y upgrade && \
+    dnf -y groupinstall javaenterprise && \
+    dnf -y install hibernate-entitymanager hibernate-envers hibernate-java8 hibernate-infinispan jbossws-cxf glassfish-jaxb-jxc slf4j-ext slf4j-jboss-logmanager && \
+    dnf clean all
 
-# installing dependencies & wildfly packages
-RUN dnf -y groupinstall javaenterprise && dnf clean all
+# bug fix
+RUN ln -sf /usr/share/java/wildfly/wildfly-clustering-singleton-api.jar /usr/share/wildfly/modules/system/layers/base/org/wildfly/clustering/singleton/main/wildfly-clustering-singleton-api-10.1.0.Final.jar && \
+    ln -sf /usr/share/java/wildfly/wildfly-clustering-singleton-extension.jar /usr/share/wildfly/modules/system/layers/base/org/wildfly/clustering/singleton/main/wildfly-clustering-singleton-extension-10.1.0.Final.jar
 
-# Set the JAVA_HOME variable to make it clear where Java is located
-ENV JAVA_HOME /usr/lib/jvm/java
-# Set JBOSS_HOME env variable
+# set einvironment
+ENV JAVA_HOME /usr/lib/jvm/java-openjdk
 ENV JBOSS_HOME /usr/share/wildfly
-ENV WILDFLY_HOME /usr/share/wildfly
-# Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
-# wildfly mode
-ENV WILDFLY_MODE standalone
-# wildfly config
-ENV WILDFLY_CONFIG standalone.xml
-# wildfly bind
-ENV WILDFLY_BIND 0.0.0.0
 
-# switch to user wildfly
 USER wildfly
 
-# Expose the ports we're interested in
 EXPOSE 8080 9990
 
-# Set the default command to run on boot
-# This will boot WildFly in the standalone mode and bind to all interface
-# CMD ["/usr/share/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
-CMD ["/usr/share/wildfly/bin/launch.sh", "$WILDFLY_MODE", "$WILDFLY_CONFIG", "$WILDFLY_BIND"]
+CMD ["/usr/share/wildfly/bin/standalone.sh", "-c", "standalone.xml", "-b", "0.0.0.0"]
