@@ -14,8 +14,10 @@ RUN ln -sf /usr/share/java/wildfly/wildfly-clustering-singleton-api.jar /usr/sha
     ln -sf /usr/share/java/wildfly/wildfly-clustering-singleton-extension.jar /usr/share/wildfly/modules/system/layers/base/org/wildfly/clustering/singleton/main/wildfly-clustering-singleton-extension-10.1.0.Final.jar
 
 # add database connection
-RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/org/postgresql/main
-RUN ln -s /usr/share/java/postgresql-jdbc.jar /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-jdbc.jar
+COPY files /tmp/files
+RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/org/postgresql/main && \
+    ln -s /usr/share/java/postgresql-jdbc.jar /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-jdbc.jar && \
+    cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/
 
 # set einvironment
 ENV JAVA_HOME /usr/lib/jvm/java-openjdk
