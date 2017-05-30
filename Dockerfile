@@ -17,7 +17,8 @@ RUN ln -sf /usr/share/java/wildfly/wildfly-clustering-singleton-api.jar /usr/sha
 COPY files /tmp/files
 RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/org/postgresql/main && \
     ln -s /usr/share/java/postgresql-jdbc.jar /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-jdbc.jar && \
-    cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/
+    cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/ && \
+    sed -i -e '/<datasources>/r /tmp/files/datasources.xml' /usr/share/wildfly/standalone/configuration/standalone.xml
 
 # set einvironment
 ENV JAVA_HOME /usr/lib/jvm/java-openjdk
