@@ -6,7 +6,7 @@ MAINTAINER Arthur
 RUN dnf -y upgrade && \
     dnf -y groupinstall javaenterprise && \
     dnf -y install hibernate-entitymanager hibernate-envers hibernate-java8 hibernate-infinispan jbossws-cxf glassfish-jaxb-jxc slf4j-ext slf4j-jboss-logmanager && \
-    dnf -y install postgresql-jdbc.noarch && \
+    dnf -y install mysql-connector-java.noarch && \
     dnf clean all
 
 # bug fix
@@ -20,9 +20,9 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
 # add database connection
 COPY files /tmp/files
-RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/org/postgresql/main && \
-    ln -s /usr/share/java/postgresql-jdbc.jar /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-jdbc.jar && \
-    cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/ && \
+RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/com/mysql && \
+    ln -s /usr/share/java/mysql-connector-java.jar /usr/share/wildfly/modules/system/layers/base/com/mysql/mysql-connector-java.jar && \
+    cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/com/mysql/ && \
     sed -i -e '/<datasources>/ r /tmp/files/datasource.xml' /usr/share/wildfly/standalone/configuration/standalone.xml && \
     sed -i -e '/<drivers>/ r /tmp/files/driver.xml' /usr/share/wildfly/standalone/configuration/standalone.xml
 
