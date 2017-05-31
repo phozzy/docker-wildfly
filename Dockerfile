@@ -13,17 +13,18 @@ RUN dnf -y upgrade && \
 RUN ln -sf /usr/share/java/wildfly/wildfly-clustering-singleton-api.jar /usr/share/wildfly/modules/system/layers/base/org/wildfly/clustering/singleton/main/wildfly-clustering-singleton-api-10.1.0.Final.jar && \
     ln -sf /usr/share/java/wildfly/wildfly-clustering-singleton-extension.jar /usr/share/wildfly/modules/system/layers/base/org/wildfly/clustering/singleton/main/wildfly-clustering-singleton-extension-10.1.0.Final.jar
 
+# set einvironment
+ENV JAVA_HOME /usr/lib/jvm/java-openjdk
+ENV JBOSS_HOME /usr/share/wildfly
+ENV LAUNCH_JBOSS_IN_BACKGROUND true
+
 # add database connection
 COPY files /tmp/files
 RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/org/postgresql/main && \
     ln -s /usr/share/java/postgresql-jdbc.jar /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-jdbc.jar && \
     cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/org/postgresql/main/ && \
-    sed -i -e '/<datasources>/r /tmp/files/datasources.xml' /usr/share/wildfly/standalone/configuration/standalone.xml
-
-# set einvironment
-ENV JAVA_HOME /usr/lib/jvm/java-openjdk
-ENV JBOSS_HOME /usr/share/wildfly
-ENV LAUNCH_JBOSS_IN_BACKGROUND true
+    sed -i -e '/<datasources>/ r /tmp/files/datasource.xml' /usr/share/wildfly/standalone/configuration/standalone.xml && \
+    sed -i -e '/<drivers>/ r /tmp/files/driver.xml' /usr/share/wildfly/standalone/configuration/standalone.xml
 
 USER wildfly
 

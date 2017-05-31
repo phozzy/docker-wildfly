@@ -1,9 +1,11 @@
-<datasource jta="true" jndi-name="java:/jdbc/my_datasource" pool-name="my_pool" enabled="true" use-ccm="true">
-    <connection-url>${env.POSTGRES_CONNECTION}</connection-url>
-    <driver-class>org.postgresql.Driver</driver-class>
-    <driver>postgresql</driver>
-    <security>
-      <user-name>${env.POSTGRES_USER}</user-name>
-      <password>${env.POSTGRES_PASSWORD}</password>
-    </security>
-</datasource>
+                <datasource jta="true" jndi-name="java:jboss/datasources/PostgreDataSource" pool-name="PostgreDataSource" enabled="true" use-ccm="true">
+                    <connection-url>${env.POSTGRES_CONNECTION}</connection-url>
+                    <!--
+                    <driver-class>org.postgresql.Driver</driver-class>
+                    -->
+                    <driver>postgresql</driver>
+                    <security>
+                        <user-name>${env.POSTGRES_USER}</user-name>
+                        <password>${env.POSTGRES_PASSWORD}</password>
+                    </security>
+                </datasource>
