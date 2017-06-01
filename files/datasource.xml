@@ -1,12 +1,12 @@
                 <datasource jta="true" jndi-name="java:jboss/datasources/MySqlDS" pool-name="MySqlDS" enabled="true" use-ccm="true">
-                    <connection-url>${env.POSTGRES_CONNECTION}</connection-url>
+                    <connection-url>${env.MYSQL_CONNECTION}</connection-url>
                     <!--
                     <driver-class>org.postgresql.Driver</driver-class>
                     -->
                     <driver>mysql</driver>
                     <security>
-                        <user-name>${env.POSTGRES_USER}</user-name>
-                        <password>${env.POSTGRES_PASSWORD}</password>
+                        <user-name>${env.MYSQL_USER}</user-name>
+                        <password>${env.MYSQL_PASSWORD}</password>
                     </security>
                     <validation>
                         <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>
