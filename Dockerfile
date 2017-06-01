@@ -20,9 +20,9 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
 # add database connection
 COPY files /tmp/files
-RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/com/mysql && \
-    ln -s /usr/share/java/mysql-connector-java.jar /usr/share/wildfly/modules/system/layers/base/com/mysql/mysql-connector-java.jar && \
-    cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/com/mysql/ && \
+RUN mkdir -p /usr/share/wildfly/modules/system/layers/base/com/mysql/main && \
+    ln -s /usr/share/java/mysql-connector-java.jar /usr/share/wildfly/modules/system/layers/base/com/mysql/main/mysql-connector-java.jar && \
+    cp /tmp/files/module.xml /usr/share/wildfly/modules/system/layers/base/com/mysql/main/ && \
     sed -i -e '/<datasources>/ r /tmp/files/datasource.xml' /usr/share/wildfly/standalone/configuration/standalone.xml && \
     sed -i -e '/<drivers>/ r /tmp/files/driver.xml' /usr/share/wildfly/standalone/configuration/standalone.xml
 
