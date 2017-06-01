@@ -1,11 +1,16 @@
-                <datasource jta="true" jndi-name="java:jboss/datasources/PostgreDataSource" pool-name="PostgreDataSource" enabled="true" use-ccm="true">
+                <datasource jta="true" jndi-name="java:jboss/datasources/MySqlDS" pool-name="MySqlDS" enabled="true" use-ccm="true">
                     <connection-url>${env.POSTGRES_CONNECTION}</connection-url>
                     <!--
                     <driver-class>org.postgresql.Driver</driver-class>
                     -->
-                    <driver>postgresql</driver>
+                    <driver>mysql</driver>
                     <security>
                         <user-name>${env.POSTGRES_USER}</user-name>
                         <password>${env.POSTGRES_PASSWORD}</password>
                     </security>
+                    <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>
+                        <background-validation>true</background-validation>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>
+                    </validation>
                 </datasource>
