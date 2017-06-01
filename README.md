@@ -17,9 +17,9 @@ wildfly images prepared to work with mysql(not mariadb), postgresql, others tbd.
 > docker pull phozzy/wildfly:postgresql  
 
 ```
-docker run --name='some_name' -it -p 8080:8080 &#92;  
--e POSTGRES_USER='your_user' &#92;  
--e POSTGRES_PASSWORD='your_password' &#92;  
--e POSTGRES_CONNECTION='jdbc:postgresql://your_host/your_database' &#92;  
+docker run --name='some_name' -it -p 8080:8080 \
+-e POSTGRES_USER='your_user' \
+-e POSTGRES_PASSWORD='your_password' \
+-e POSTGRES_CONNECTION='jdbc:postgresql://your_host/your_database' \
 phozzy/docker-wildfly:postgresql
 ```
